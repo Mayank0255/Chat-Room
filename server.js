@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 const http = require("http");
 const socketio = require("socket.io");
+const formatMessage = require('./utils/messages');
 
 const server = http.createServer(app);
 const io = socketio(server);
