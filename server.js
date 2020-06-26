@@ -29,16 +29,23 @@ io.on('connection', socket => {
     })
 
     socket.on('chatMessage', msg => {
-        const {username, room} = currentUser(socket.id);
-        console.log(username + " - " + socket.id);
+        const user = currentUser(socket.id);
+        console.log(user.username + " - " + socket.id);
 
-        io.to(room)
-            .emit('message', formatMessage(username, msg));
+        // socket.to(user.room)
+        //     .emit('message', formatMessage('You', msg));
+        //
+        // socket.broadcast
+        //     .to(user.room)
+        //     .emit('message', formatMessage(user.username, msg));
+
+        io.to(user.room)
+            .emit('message', formatMessage(user.username, msg));
     });
 
     socket.on('disconnect', () => {
-        const {username} = currentUser(socket.id);
-        socket.broadcast.emit('message', formatMessage(botName, `${username} has left the chat`));
+        const user = currentUser(socket.id);
+        socket.broadcast.emit('message', formatMessage(botName, `${user.username} has left the chat`));
     });
 })
 
