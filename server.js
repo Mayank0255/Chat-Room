@@ -2,32 +2,36 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const http = require("http");
-const socketio = require("socket.io");
+const socketIo = require("socket.io");
 const formatMessage = require('./utils/messages');
+const { userJoin, currentUser } = require('./utils/users');
 
 const server = http.createServer(app);
-const io = socketio(server);
+const io = socketIo(server);
 
 const PORT = 3000 || process.env.PORT;
 
 app.use(express.static(path.join(__dirname, "/public")));
 
 io.on('connection', socket => {
-    const botName = 'PotatoBot'
+    const botName = 'WelcomeBot'
 
-    console.log('New User Connected');
+    socket.on('joinRoom', ({ username, room }) => {
+        const user = userJoin(socket.id, username, room);
 
-    socket.emit('message', formatMessage(botName, 'Welcome to ChatCord'));
+        socket.join(user.room);
 
-    socket.broadcast.emit('message', formatMessage(botName, 'A user has joined the chat'));
+        socket.emit('message', formatMessage(botName, 'Welcome to ChatCord'));
 
-    socket.on('joinRoom', details => {
-        console.log(details);
+        socket.broadcast
+            .to(user.room)
+            .emit('message', formatMessage(user.username, `${user.username} has joined the chat`));
+
+        socket.on('chatMessage', msg => {
+            io.to(user.room)
+              .emit('message', formatMessage(user.username, msg));
+        });
     })
-
-    socket.on('chatMessage', msg => {
-        io.emit('message', formatMessage('USER', msg));
-    });
 
     socket.on('disconnect', () => {
         socket.broadcast.emit('message', formatMessage(botName, 'A user has left the chat'));
