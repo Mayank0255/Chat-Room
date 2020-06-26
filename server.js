@@ -21,6 +21,10 @@ io.on('connection', socket => {
 
     socket.broadcast.emit('message', formatMessage(botName, 'A user has joined the chat'));
 
+    socket.on('joinRoom', details => {
+        console.log(details);
+    })
+
     socket.on('chatMessage', msg => {
         io.emit('message', formatMessage('USER', msg));
     });
