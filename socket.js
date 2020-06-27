@@ -31,7 +31,7 @@ function configureSockets(io) {
 
     socket.on('chatMessage', msg => {
       const user = currentUser(socket.id);
-      // console.log(user.username + " - " + socket.id);
+      // console.log(user.username + ' - ' + socket.id);
 
       // socket.to(user.room)
       //     .emit('message', formatMessage('You', msg));
