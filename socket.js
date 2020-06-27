@@ -21,7 +21,7 @@ function configureSockets(io) {
 
       socket.broadcast
         .to(user.room)
-        .emit('message', formatMessage(user.username, `${user.username} has joined the chat`));
+        .emit('message', formatMessage(botName, `${user.username} has joined the chat`));
 
       io.to(user.room).emit('roomUsers', {
         room: user.room,
@@ -31,17 +31,13 @@ function configureSockets(io) {
 
     socket.on('chatMessage', msg => {
       const user = currentUser(socket.id);
-      // console.log(user.username + ' - ' + socket.id);
 
-      // socket.to(user.room)
-      //     .emit('message', formatMessage('You', msg));
-      //
-      // socket.broadcast
-      //     .to(user.room)
-      //     .emit('message', formatMessage(user.username, msg));
+      socket.emit('message', formatMessage('You', msg));
 
-      io.to(user.room)
-        .emit('message', formatMessage(user.username, msg));
+      socket.broadcast
+          .to(user.room)
+          .emit('message', formatMessage(user.username, msg));
+
     });
 
     socket.on('disconnect', () => {
