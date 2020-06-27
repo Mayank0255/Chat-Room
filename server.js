@@ -2,16 +2,25 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const http = require("http");
+const bodyParser = require("body-parser");
 const socketIo = require("socket.io");
 const formatMessage = require('./utils/messages');
-const { userJoin, currentUser, userLeave, getRoomUsers } = require('./utils/users');
+const {
+    userJoin,
+    currentUser,
+    userLeave,
+    getRoomUsers
+} = require('./utils/users');
 
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
+app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, "/public")));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 io.on('connection', socket => {
     const botName = 'WelcomeBot'
