@@ -13,7 +13,7 @@ function configureSockets(io) {
     const botName = 'WelcomeBot'
 
     socket.on('joinRoom', ({ username, room }) => {
-      const user = userJoin(socket.id, username, room);
+      const user = userJoin(socket.id, username, room)
 
       socket.join(user.room);
 
