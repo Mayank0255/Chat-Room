@@ -22,6 +22,14 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('', (req, res) => {
+    res.render('index');
+});
+
+app.get('/chat', (req, res) => {
+    res.render('chat');
+});
+
 io.on('connection', socket => {
     const botName = 'WelcomeBot'
 
@@ -33,8 +41,8 @@ io.on('connection', socket => {
         socket.emit('message', formatMessage(botName, 'Welcome to ChatCord'));
 
         socket.broadcast
-            .to(user.room)
-            .emit('message', formatMessage(user.username, `${user.username} has joined the chat`));
+          .to(user.room)
+          .emit('message', formatMessage(user.username, `${user.username} has joined the chat`));
 
         io.to(user.room).emit('roomUsers', {
             room: user.room,
@@ -54,7 +62,7 @@ io.on('connection', socket => {
         //     .emit('message', formatMessage(user.username, msg));
 
         io.to(user.room)
-            .emit('message', formatMessage(user.username, msg));
+          .emit('message', formatMessage(user.username, msg));
     });
 
     socket.on('disconnect', () => {
@@ -62,8 +70,8 @@ io.on('connection', socket => {
 
         if (user) {
             io.to(user.room).emit(
-                'message',
-                formatMessage(botName, `${user.username} has left the chat`)
+              'message',
+              formatMessage(botName, `${user.username} has left the chat`)
             );
 
             // Send users and room info
