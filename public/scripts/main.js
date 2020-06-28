@@ -12,9 +12,8 @@ socket.on('roomUsers', ({ room, users }) => {
   outputUsers(users);
 })
 
-socket.on('message', message => {
-  console.log(message);
-  outputMessage(message);
+socket.on('message', (message, type) => {
+  outputMessage(message, type);
 
   chatMessages.scrollTop = chatMessages.scrollHeight;
 });
@@ -30,9 +29,9 @@ chatForm.addEventListener('submit', e => {
   e.target.elements.msg.focus();
 });
 
-function outputMessage(message) {
+function outputMessage(message, type) {
   const div = document.createElement('div');
-  div.classList.add('message');
+  div.classList.add(type === 1 ? 'message-1' : 'message-2');
   div.innerHTML = `<p class='meta'>${message.user} <span>${message.time}</span></p>
 						<p class='text'>
 							${message.text}

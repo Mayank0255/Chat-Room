@@ -30,11 +30,11 @@ function configureSockets(io) {
 
       socket.join(user.room);
 
-      socket.emit('message', formatMessage(botName, `Welcome to the ${user.room} ChatRoom`));
+      socket.emit('message', formatMessage(botName, `${username[0].toUpperCase() + username.slice(1)}, Welcome to the ${user.room} room`), 1);
 
       socket.broadcast
         .to(user.room)
-        .emit('message', formatMessage(botName, `${user.username} has joined the chat`));
+        .emit('message', formatMessage(botName, `${user.username} has joined the chat`), 1);
 
       io.to(user.room).emit('roomUsers', {
         room: user.room,
@@ -45,11 +45,11 @@ function configureSockets(io) {
     socket.on('chatMessage', msg => {
       const user = currentUser(socket.id);
 
-      socket.emit('message', formatMessage('You', msg));
+      socket.emit('message', formatMessage('You', msg), 2);
 
       socket.broadcast
           .to(user.room)
-          .emit('message', formatMessage(user.username, msg));
+          .emit('message', formatMessage(user.username, msg), 1);
 
     });
 
@@ -59,7 +59,8 @@ function configureSockets(io) {
       if (user) {
         io.to(user.room).emit(
           'message',
-          formatMessage(botName, `${user.username} has left the chat`)
+          formatMessage(botName, `${user.username} has left the chat`),
+          1
         );
 
         // Send users and room info
