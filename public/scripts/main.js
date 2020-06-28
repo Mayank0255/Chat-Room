@@ -9,7 +9,7 @@ const { username, room } = Qs.parse(location.search, {
 
 const socket = io();
 
-socket.emit('joinRoom', { username, room });
+socket.emit('joinRoom');
 
 socket.on('roomUsers', ({ room, users }) => {
   outputRoomName(room);

@@ -5,11 +5,11 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const socketIo = require('socket.io');
-const configureSockets = require('./socket').configureSockets;
+const { configureSockets, setUserRoom } = require('./socket');
 
 const server = http.createServer(app);
 const io = socketIo(server);
-configureSockets(io)
+configureSockets(io);
 
 // mongoose.connect("mongodb://localhost/chat_room", { useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -20,12 +20,19 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('', (req, res) => {
+app.get('/', (req, res) => {
     res.render('index');
 });
 
 app.post('/chat', (req, res) => {
+    const {
+        username,
+        room
+    } = req.body;
 
+    setUserRoom(username, room);
+
+    res.redirect('/chat');
 });
 
 app.get('/chat', (req, res) => {

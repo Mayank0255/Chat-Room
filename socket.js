@@ -7,17 +7,30 @@ const {
 
 const formatMessage = require('./utils/messages');
 
+var username;
+var room;
+
+function setUserRoom(userName, Room) {
+  username = userName;
+  room = Room;
+}
+
+function getUserRoom() {
+  return { username, room }
+}
 
 function configureSockets(io) {
   io.on('connection', socket => {
     const botName = 'WelcomeBot'
 
-    socket.on('joinRoom', ({ username, room }) => {
+    socket.on('joinRoom', () => {
+      const { username, room } = getUserRoom();
+
       const user = userJoin(socket.id, username, room)
 
       socket.join(user.room);
 
-      socket.emit('message', formatMessage(botName, 'Welcome to ChatCord'));
+      socket.emit('message', formatMessage(botName, `Welcome to the ${user.room} ChatRoom`));
 
       socket.broadcast
         .to(user.room)
@@ -59,4 +72,7 @@ function configureSockets(io) {
   })
 }
 
-module.exports = { configureSockets }
+module.exports = {
+  configureSockets,
+  setUserRoom
+}
