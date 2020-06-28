@@ -12,8 +12,8 @@ socket.on('roomUsers', ({ room, users }) => {
   outputUsers(users);
 })
 
-socket.on('message', (message, type) => {
-  outputMessage(message, type);
+socket.on('message', (message, type, user) => {
+  outputMessage(message, type, user);
 
   chatMessages.scrollTop = chatMessages.scrollHeight;
 });
@@ -29,10 +29,26 @@ chatForm.addEventListener('submit', e => {
   e.target.elements.msg.focus();
 });
 
-function outputMessage(message, type) {
+function outputMessage(message, type, user) {
+  const colors = [
+    'rgb(233, 30, 99)',
+    'rgb(148, 83, 174)',
+    'rgb(242, 141, 0)',
+    'rgb(52, 152, 209)'
+  ]
+
+  let color = '';
+
+  if (type === 1 && user === 'WelcomeBot') {
+    color = 'rgb(241, 192, 26)';
+  } else if (type === 1 && user !== 'WelcomeBot') {
+    color = colors[Math.floor(Math.random() * colors.length)];
+  }
+  color = 'color: ' + color;
+
   const div = document.createElement('div');
   div.classList.add(type === 1 ? 'message-1' : 'message-2');
-  div.innerHTML = `<p class='meta'>${message.user} <span>${message.time}</span></p>
+  div.innerHTML = `<p class='meta' style='${color}'>${message.user} <span>${message.time}</span></p>
 						<p class='text'>
 							${message.text}
 						</p>`;
