@@ -173,7 +173,8 @@ input::placeholder {
 	font-weight: 600;
 }
 
-.join-main input[type='text'] {
+.join-main input[type='text'],
+.join-main select {
 	font-size: 16px;
 	padding: 20px 12px;
 	height: 40px;
@@ -185,14 +186,7 @@ input::placeholder {
 }
 
 .join-main select {
-	font-size: 16px;
 	padding: 8px 7px;
-	height: 40px;
-	width: 100%;
-	background: var(--dark-color-b);
-	border: 1.5px solid var(--dark-color-b);
-	color: var(--light-color);
-	border-radius: 3px;
 }
 
 .join-main select:focus,
