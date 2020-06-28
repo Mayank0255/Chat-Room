@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -11,7 +13,7 @@ const server = http.createServer(app);
 const io = socketIo(server);
 configureSockets(io);
 
-// mongoose.connect("mongodb://localhost/chat_room", { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
 
 const PORT = process.env.PORT || 3000;
 

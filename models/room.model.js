@@ -7,10 +7,6 @@ const RoomSchema = new mongoose.Schema(
       required: true,
       unique: true
     },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-    },
     participants: [
       { type: Schema.Types.ObjectId, ref: 'User' }
     ]
