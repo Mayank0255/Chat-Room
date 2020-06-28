@@ -74,5 +74,6 @@ function configureSockets(io) {
 
 module.exports = {
   configureSockets,
-  setUserRoom
+  setUserRoom,
+  getUserRoom
 }

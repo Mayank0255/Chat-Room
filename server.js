@@ -5,7 +5,7 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const socketIo = require('socket.io');
-const { configureSockets, setUserRoom } = require('./socket');
+const { configureSockets, setUserRoom, getUserRoom } = require('./socket');
 
 const server = http.createServer(app);
 const io = socketIo(server);
@@ -36,7 +36,9 @@ app.post('/chat', (req, res) => {
 });
 
 app.get('/chat', (req, res) => {
-    res.render('chat');
+    const { username } = getUserRoom();
+
+    return (username ? res.render('chat') : res.redirect('/'));
 });
 
 server.listen(PORT, () => {
