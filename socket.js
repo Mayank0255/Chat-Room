@@ -7,19 +7,19 @@ const {
 
 const formatMessage = require('./utils/messages');
 
-var username;
-var room;
+let username;
+let room;
 
-function setUserRoom(userName, Room) {
+const setUserRoom = (userName, Room) => {
   username = userName;
   room = Room;
 }
 
-function getUserRoom() {
+const getUserRoom = () => {
   return { username, room }
 }
 
-function configureSockets(io) {
+const configureSockets = (io) => {
   io.on('connection', socket => {
     const botName = 'WelcomeBot'
 

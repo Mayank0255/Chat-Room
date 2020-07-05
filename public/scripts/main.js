@@ -29,18 +29,19 @@ chatForm.addEventListener('submit', e => {
   e.target.elements.msg.focus();
 });
 
-function outputMessage(message, type, user) {
+const outputMessage = (message, type, user) => {
   const colors = [
-    'rgb(233, 30, 99)',
+    'rgb(232, 23, 93)',
     'rgb(148, 83, 174)',
-    'rgb(242, 141, 0)',
-    'rgb(52, 152, 209)'
+    'rgb(255, 149, 0)',
+    'rgb(52, 152, 209)',
+    'rgb(26, 188, 132)'
   ]
 
   let color = '';
 
   if (type === 1 && user === 'WelcomeBot') {
-    color = 'rgb(241, 192, 26)';
+    color = 'rgb(241, 196, 30)';
   } else if (type === 1 && user !== 'WelcomeBot') {
     color = colors[Math.floor(Math.random() * colors.length)];
   }
@@ -55,12 +56,12 @@ function outputMessage(message, type, user) {
   document.querySelector('.chat-messages').appendChild(div);
 }
 
-function outputRoomName(room) {
+const outputRoomName = (room) => {
   roomName.innerText = room;
 }
 
 // Add users to DOM
-function outputUsers(users) {
+const outputUsers = (users) => {
   userList.innerHTML = `
     ${users.map(user => `<li>${user.username}</li>`).join('')}
   `;

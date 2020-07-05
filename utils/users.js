@@ -1,6 +1,6 @@
 const users = [];
 
-function userJoin(id, username, room) {
+const userJoin = (id, username, room) => {
     const user = { id, username, room };
 
     users.push(user);
@@ -8,11 +8,11 @@ function userJoin(id, username, room) {
     return user;
 }
 
-function currentUser(id) {
+const currentUser = (id) => {
     return users.find(user => user.id === id);
 }
 
-function userLeave(id) {
+const userLeave = (id) => {
     const index = users.findIndex(user => user.id === id);
 
     if (index !== -1) {
@@ -20,7 +20,7 @@ function userLeave(id) {
     }
 }
 
-function getRoomUsers(room) {
+const getRoomUsers = (room) => {
     return users.filter(user => user.room === room);
 }
 
