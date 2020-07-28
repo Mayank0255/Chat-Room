@@ -33,4 +33,9 @@ Chat rooms with any development related topics with the color scheme of Discord
     npm start (run the server)
     ```
 
+## DEMO
+  
+#### IMAGES:
+<img src="/demo/images/1.png" width=440px />
+<img src="/demo/images/2.png" width=440px />
 
